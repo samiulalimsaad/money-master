@@ -69,7 +69,7 @@ calculateButtonNode.addEventListener("click", function (e) {
 
     const totalExpense = totalFood + totalRent + totalClothes;
     if (totalExpense > totalIncome) {
-        showErrorMessage("Expense must be a lower than net income");
+        showErrorMessage("Expense must be lower than net income");
         totalExpensesNode.innerText = 0;
         balanceNode.innerText = 0;
     } else {
@@ -85,7 +85,7 @@ saveButtonNode.addEventListener("click", function (e) {
     const temp = makeNumber(savingsPercentage, "Saving percentage");
     const savings = (totalIncome * temp) / 100;
     if (savings > totalIncome) {
-        showErrorMessage("Savings must be a lower than net income");
+        showErrorMessage("Savings must be lower than net income");
         errorMessageSectionNode.style.display = "flex";
         savingAmountNode.innerText = 0;
         remainingAmountNode.innerText = 0;
