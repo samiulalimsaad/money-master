@@ -20,10 +20,11 @@ const errorMessageNode = document.querySelector("#errorMessage");
 const calculateButtonNode = document.querySelector("#calculate-button");
 const saveButtonNode = document.querySelector("#save-button");
 
-let income;
-let food;
-let rent;
-let clothes;
+let totalIncome = 0;
+let totalBalance = 0;
+let totalFood = 0;
+let totalRent = 0;
+let totalClothes = 0;
 
 function makeNumber(str, field = "") {
     const temp = parseFloat(str);
@@ -39,15 +40,15 @@ function makeNumber(str, field = "") {
 }
 
 calculateButtonNode.addEventListener("click", function (e) {
-    income = incomeNode.value;
-    food = foodNode.value;
-    rent = rentNode.value;
-    clothes = clothesNode.value;
+    const income = incomeNode.value;
+    const food = foodNode.value;
+    const rent = rentNode.value;
+    const clothes = clothesNode.value;
 
-    const totalIncome = makeNumber(income, "Income");
-    const totalFood = makeNumber(food, "Food");
-    const totalRent = makeNumber(rent, "Rent");
-    const totalClothes = makeNumber(clothes, "Clothes");
+    totalIncome = makeNumber(income, "Income");
+    totalFood = makeNumber(food, "Food");
+    totalRent = makeNumber(rent, "Rent");
+    totalClothes = makeNumber(clothes, "Clothes");
     console.log({ totalIncome, totalFood, totalRent, totalClothes });
 
     const totalExpense = totalFood + totalRent + totalClothes;
@@ -58,6 +59,7 @@ calculateButtonNode.addEventListener("click", function (e) {
     } else {
         totalExpensesNode.innerText = totalExpense;
         balanceNode.innerText = totalIncome - totalExpense;
+        totalBalance = totalIncome - totalExpense;
     }
 
     // errorMessageNode.innerText = "test";
@@ -67,3 +69,12 @@ calculateButtonNode.addEventListener("click", function (e) {
     // remainingAmountNode.innerText = 2500;
 });
 
+saveButtonNode.addEventListener("click", function (e) {
+    const savingPercentage = saveNode.value;
+    const temp = makeNumber(savingPercentage, "Saving percentage");
+    console.log("temp", temp);
+    const saving = (totalIncome * temp) / 100;
+    console.log("saving", saving);
+    savingAmountNode.innerText = saving;
+    remainingAmountNode.innerText = totalBalance - saving;
+});
