@@ -67,11 +67,3 @@ calculateButtonNode.addEventListener("click", function (e) {
     // remainingAmountNode.innerText = 2500;
 });
 
-saveButtonNode.addEventListener("click", function (e) {
-    const savingPercentage = saveNode.value;
-    const temp = makeNumber(savingPercentage, "Saving percentage");
-    console.log("first", temp);
-    const saving = income + (income * temp) / 100;
-    savingAmountNode.innerText = saving;
-    remainingAmountNode.innerText = income - saving;
-});
