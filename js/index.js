@@ -68,7 +68,6 @@ calculateButtonNode.addEventListener("click", function (e) {
     totalFood = makeNumber(food, "Food");
     totalRent = makeNumber(rent, "Rent");
     totalClothes = makeNumber(clothes, "Clothes");
-    console.log({ totalIncome, totalFood, totalRent, totalClothes });
 
     const totalExpense = totalFood + totalRent + totalClothes;
     if (totalExpense > totalIncome) {
@@ -86,7 +85,6 @@ calculateButtonNode.addEventListener("click", function (e) {
 saveButtonNode.addEventListener("click", function (e) {
     const savingsPercentage = saveNode.value;
     const temp = makeNumber(savingsPercentage, "Saving percentage");
-    console.log("temp", temp);
     const savings = (totalIncome * temp) / 100;
     if (savings > totalIncome) {
         showErrorMessage("Savings must be a lower than net income");
