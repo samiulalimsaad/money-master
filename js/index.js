@@ -37,7 +37,7 @@ function makeNumber(str, field = "") {
         showErrorMessage(field + " can't be negative");
         return 0;
     } else if (!temp) {
-        showErrorMessage(field + " must be a number");
+        showErrorMessage(field + " can't be empty");
         return 0;
     } else {
         return temp;
@@ -57,6 +57,7 @@ function showErrorMessage(message) {
 
 //  calculate income, food, rent, clothes
 calculateButtonNode.addEventListener("click", function (e) {
+    errorMessageSectionNode.style.display = "none";
     const income = incomeNode.value;
     const food = foodNode.value;
     const rent = rentNode.value;
@@ -68,7 +69,9 @@ calculateButtonNode.addEventListener("click", function (e) {
     totalClothes = makeNumber(clothes, "Clothes");
 
     const totalExpense = totalFood + totalRent + totalClothes;
-    if (totalExpense > totalIncome) {
+    if (totalFood === 0 || totalRent === 0 || totalClothes === 0) {
+        showErrorMessage("Food Rent Clothes can be 0");
+    } else if (totalExpense > totalIncome) {
         showErrorMessage("Expense must be lower than net income");
         totalExpensesNode.innerText = 0;
         balanceNode.innerText = 0;
@@ -81,6 +84,7 @@ calculateButtonNode.addEventListener("click", function (e) {
 
 // savings calculation
 saveButtonNode.addEventListener("click", function (e) {
+    errorMessageSectionNode.style.display = "none";
     const savingsPercentage = saveNode.value;
     const temp = makeNumber(savingsPercentage, "Saving percentage");
     const savings = (totalIncome * temp) / 100;
