@@ -14,7 +14,10 @@ const savingAmountNode = document.querySelector("#savingAmount");
 const remainingAmountNode = document.querySelector("#remainingAmount");
 
 // Error
+const errorMessageSectionNode = document.querySelector("#errorMessageSection");
 const errorMessageNode = document.querySelector("#errorMessage");
+const errorCloseButtonNode = document.querySelector("#errorCloseButton");
+errorMessageSectionNode.style.display = "none";
 
 // buttons
 const calculateButtonNode = document.querySelector("#calculate-button");
@@ -26,19 +29,35 @@ let totalFood = 0;
 let totalRent = 0;
 let totalClothes = 0;
 
+// string to number conversion with validation
 function makeNumber(str, field = "") {
     const temp = parseFloat(str);
     if (temp === 0) {
-        errorMessageNode.innerText = field + " can't be 0";
+        showErrorMessage(field + " can't be 0");
+        return 0;
+    } else if (temp < 0) {
+        showErrorMessage(field + " can't be negative");
         return 0;
     } else if (!temp) {
-        errorMessageNode.innerText = field + " must be a number";
+        showErrorMessage(field + " must be a number");
         return 0;
     } else {
         return temp;
     }
 }
 
+// hide error message handler
+errorCloseButtonNode.addEventListener("click", function (e) {
+    errorMessageSectionNode.style.display = "none";
+});
+
+// show error message handler
+function showErrorMessage(message) {
+    errorMessageSectionNode.style.display = "flex";
+    errorMessageNode.innerText = message;
+}
+
+//  calculate income, food, rent, clothes
 calculateButtonNode.addEventListener("click", function (e) {
     const income = incomeNode.value;
     const food = foodNode.value;
@@ -53,7 +72,7 @@ calculateButtonNode.addEventListener("click", function (e) {
 
     const totalExpense = totalFood + totalRent + totalClothes;
     if (totalExpense > totalIncome) {
-        errorMessageNode.innerText = "Expense must be a lower than net income";
+        showErrorMessage("Expense must be a lower than net income");
         totalExpensesNode.innerText = 0;
         balanceNode.innerText = 0;
     } else {
@@ -61,20 +80,21 @@ calculateButtonNode.addEventListener("click", function (e) {
         balanceNode.innerText = totalIncome - totalExpense;
         totalBalance = totalIncome - totalExpense;
     }
-
-    // errorMessageNode.innerText = "test";
-    // totalExpensesNode.innerText = 5500;
-    // balanceNode.innerText = 4500;
-    // savingAmountNode.innerText = 2000;
-    // remainingAmountNode.innerText = 2500;
 });
 
+// savings calculation
 saveButtonNode.addEventListener("click", function (e) {
-    const savingPercentage = saveNode.value;
-    const temp = makeNumber(savingPercentage, "Saving percentage");
+    const savingsPercentage = saveNode.value;
+    const temp = makeNumber(savingsPercentage, "Saving percentage");
     console.log("temp", temp);
-    const saving = (totalIncome * temp) / 100;
-    console.log("saving", saving);
-    savingAmountNode.innerText = saving;
-    remainingAmountNode.innerText = totalBalance - saving;
+    const savings = (totalIncome * temp) / 100;
+    if (savings > totalIncome) {
+        showErrorMessage("Savings must be a lower than net income");
+        errorMessageSectionNode.style.display = "flex";
+        savingAmountNode.innerText = 0;
+        remainingAmountNode.innerText = 0;
+    } else {
+        savingAmountNode.innerText = savings;
+        remainingAmountNode.innerText = totalBalance - savings;
+    }
 });
