@@ -1,5 +1,3 @@
-// get ids
-
 // input fields
 const incomeNode = document.querySelector("#income");
 const foodNode = document.querySelector("#food");
